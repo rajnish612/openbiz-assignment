@@ -1,0 +1,50 @@
+[
+  {
+    "tag": "input",
+    "type": "text",
+    "id": "ctl00_ContentPlaceHolder1_txtadharno",
+    "name": "ctl00$ContentPlaceHolder1$txtadharno",
+    "placeholder": "Your Aadhaar No",
+    "required": false,
+    "label": "Your Aadhaar No",
+    "pattern": null,
+    "maxlength": 12,
+    "value": null
+  },
+  {
+    "tag": "input",
+    "type": "text",
+    "id": "ctl00_ContentPlaceHolder1_txtownername",
+    "name": "ctl00$ContentPlaceHolder1$txtownername",
+    "placeholder": "Name as per Aadhaar",
+    "required": false,
+    "label": "Name as per Aadhaar",
+    "pattern": null,
+    "maxlength": 100,
+    "value": null
+  },
+  {
+    "tag": "input",
+    "type": "checkbox",
+    "id": "ctl00_ContentPlaceHolder1_chkDecarationA",
+    "name": "ctl00$ContentPlaceHolder1$chkDecarationA",
+    "placeholder": null,
+    "required": false,
+    "label": "I, the holder of the above Aadhaar, hereby give my consent to Ministry of MSME, Government of India, for using my Aadhaar number as alloted by UIDAI for Udyam Registration. NIC / Ministry of MSME, Government of India, have informed me that my aadhaar data will not be stored/shared. / मैं, आधार धारक, इस प्रकार उद्यम पंजीकरण के लिए यूआईडीएआई के साथ अपने आधार संख्या का उपयोग करने के लिए सू0ल0म0उ0 मंत्रालय, भारत सरकार को अपनी सहमति देता हूं। एनआईसी / सू0ल0म0उ0 मंत्रालय, भारत सरकार ने मुझे सूचित किया है कि मेरा आधार डेटा संग्रहीत / साझा नहीं किया जाएगा।",
+    "pattern": null,
+    "maxlength": null,
+    "value": "on"
+  },
+  {
+    "tag": "input",
+    "type": "submit",
+    "id": "ctl00_ContentPlaceHolder1_btnValidateAadhaar",
+    "name": "ctl00$ContentPlaceHolder1$btnValidateAadhaar",
+    "placeholder": null,
+    "required": false,
+    "label": null,
+    "pattern": null,
+    "maxlength": null,
+    "value": "Validate & Generate OTP"
+  }
+]
