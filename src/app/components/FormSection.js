@@ -1,39 +1,94 @@
 "use client";
 import React, { useState } from "react";
-import formFields from "../webscrapping//formFields.json";
+import formFields from "../webscrapping/formFields.json";
 const FormSection = () => {
-  const [formData, setFormData] = useState({});
-  const [errors, setErrors] = useState({});
+  const [validateFormData, setValidateFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: "",
+    aadhar: "",
+    checked: "",
+  });
+  const [otp, setOtp] = useState();
+  const [otpFormOpen, setOtpFormOpen] = useState(false);
+  const [errors, setErrors] = useState(false);
   console.log(formFields);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    console.log(checked);
+    if (type === "checkbox") {
+      setFormData((prev) => {
+        return {
+          ...prev,
+          checked: checked,
+        };
+      });
+    }
+    console.log("checked", checked);
 
-    setFormData((prev) => ({
+    setValidateFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+  const handleOtpSubmit = () => {
+    if (
+      otp?.length !== 6 ||
+      (otp?.length > 6 && typeof !isNaN(parseInt(otp)) !== "number")
+    ) {
+      return alert("Fill the otp");
+    }
+    alert("Your registration is successfull");
+    setErrors("");
+    setOtpFormOpen(false);
+    setOtp("");
+  };
   const validate = () => {
     let newErrors = {};
-    formFields.forEach((field) => {
-      const value = formData[field?.name];
-      console.log("field", field);
-      console.log("value", value);
-      if (field?.type === "checkbox" && !value) {
-        newErrors[field?.name] = "You must Agree Declerations.";
-      } else if (!value) {
-        newErrors[field?.name] = "This field is required";
+    formFields.forEach((field, idx) => {
+      const value = validateFormData[field?.name];
+      if (field?.type !== "submit") {
+        if (field.type === "text" && idx == 0 && !value) {
+          newErrors[field?.name] = "this field is required";
+        } else if (
+          field.type === "text" &&
+          idx == 0 &&
+          (!value || value?.length !== 12 || value?.length > 12)
+        ) {
+          newErrors[field?.name] = "fill this";
+        } else if (field?.type === "text" && idx == 1 && !value) {
+          newErrors[field?.name] = "this field is required";
+        } else if (field?.type === "checkbox" && !value) {
+          newErrors[field?.name] = "You must Agree Declerations.";
+        }
       }
     });
 
     return newErrors;
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     setErrors(validate());
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+    try {
+      console.log("formdata", formData);
+
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  console.log("errors", errors);
 
   return (
     <section className="flex justify-center  overflow-hidden py-10 flex-col items-center">
@@ -49,7 +104,7 @@ const FormSection = () => {
         {/* main form section */}
         <div className="bg-white px-5 py-7">
           <form className="flex space-x-2 space-y-2 flex-wrap md:flex-nowrap ">
-            {formFields.map((inputs) => {
+            {formFields.map((inputs, idx) => {
               return (
                 inputs?.type === "text" && (
                   <div className="space-y-2 w-full flex flex-col">
@@ -60,10 +115,28 @@ const FormSection = () => {
                       1. {inputs?.label}{" "}
                     </label>
                     <input
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        if (e.target.value.length <= 12 && idx == 0) {
+                          setFormData((prev) => {
+                            return {
+                              ...prev,
+                              aadhar: e.target.value,
+                            };
+                          });
+                          handleChange(e);
+                        } else if (idx === 1) {
+                          setFormData((prev) => {
+                            return {
+                              ...prev,
+                              name: e.target.value,
+                            };
+                          });
+                          handleChange(e);
+                        }
+                      }}
+                      value={validateFormData[inputs?.name]}
                       name={inputs?.name}
-                      maxLength={inputs?.maxLength}
-                      type={inputs?.type}
+                      type={idx == 0 ? "number" : inputs?.type}
                       required={inputs?.required}
                       id={inputs?.id}
                       className="w-full border-1 p-1 rounded-md placeholder:text-gray-500 border-[#ced4da]"
@@ -151,6 +224,36 @@ const FormSection = () => {
                 </>
               );
             })}
+            <div className="mt-5 flex space-y-5 w-full flex-col">
+              <span className="font-black">
+                Enter One Time Password(OTP) Code
+              </span>
+              <input
+                onChange={(e) => {
+                  if (
+                    e.target.value.length <= 6 &&
+                    typeof parseInt(e.target.value) === "number"
+                  ) {
+                    console.log("write");
+
+                    setOtp(e.target.value);
+                  }
+                }}
+                className="w-full rounded-md p-2 border-1 border-gray-400"
+                type="number"
+                value={otp}
+                maxLength={6}
+                placeholder="OTP"
+              />
+              <span>OTP has been sent to *******866</span>
+
+              <input
+                onClick={handleOtpSubmit}
+                type="submit"
+                value="validate"
+                className="mt-6 cursor-pointer rounded-md text-white bg-blue-600 p-2 w-fit"
+              />
+            </div>
           </div>
         </div>
       </div>

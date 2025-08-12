@@ -19,10 +19,8 @@ import fs from "fs";
     allInputs.forEach((input) => {
       const type = input.type || "text";
 
-      // Skip hidden fields
       if (type === "hidden") return;
 
-      // Try to get label from <label for="">
       let labelText = "";
       if (input.id) {
         const label = document.querySelector(`label[for='${input.id}']`);
@@ -31,12 +29,10 @@ import fs from "fs";
         }
       }
 
-      // If still empty, try placeholder
       if (!labelText && input.placeholder) {
         labelText = input.placeholder.trim();
       }
 
-      // If still empty, check nearby text nodes
       if (!labelText) {
         const parentText = input.parentElement?.innerText || "";
         if (parentText && parentText.trim() !== "") {
@@ -44,7 +40,6 @@ import fs from "fs";
         }
       }
 
-      // Skip meaningless checkbox without label
       if (type === "checkbox" && !labelText) return;
 
       fields.push({
