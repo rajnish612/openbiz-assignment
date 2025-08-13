@@ -1,6 +1,3 @@
-
-Notes for Submission:
-
 Tech Stack: Next.js, Jest, React Testing Library 
 
 Features Implemented:
