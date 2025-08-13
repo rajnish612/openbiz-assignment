@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+Notes for Submission:
 
-First, run the development server:
+Tech Stack: Next.js, Jest, React Testing Library 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Features Implemented:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Fully functional UI for the given task.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Validation implemented as per requirements.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Unit tests written for key components and functionalities.
 
-## Learn More
+How to Run Locally:
 
-To learn more about Next.js, take a look at the following resources:
+Clone the repository.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run npm install to install dependencies.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Start development server: npm run dev.
 
-## Deploy on Vercel
+Run tests: npm run jest
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ENVIRONMENT VARIABLES
+DATABASE_URL= your db url
