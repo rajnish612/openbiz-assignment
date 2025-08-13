@@ -47,13 +47,13 @@ const FormSection = () => {
       const value = validateFormData[field?.name];
       if (field?.type !== "submit") {
         if (field.type === "text" && idx == 0 && !value) {
-          newErrors[field?.name] = "this field is required";
+          newErrors[field?.name] = "Aadhaar is required";
         } else if (
           field.type === "text" &&
           idx == 0 &&
           (!value || value?.length !== 12 || value?.length > 12)
         ) {
-          newErrors[field?.name] = "fill this";
+          newErrors[field?.name] = "Aadhaar must be 12 digits";
         } else if (field?.type === "text" && idx == 1 && !value) {
           newErrors[field?.name] = "this field is required";
         } else if (field?.type === "checkbox" && !value) {
@@ -107,7 +107,7 @@ const FormSection = () => {
             {formFields.map((inputs, idx) => {
               return (
                 inputs?.type === "text" && (
-                  <div className="space-y-2 w-full flex flex-col">
+                  <div key={idx} className="space-y-2 w-full flex flex-col">
                     <label
                       htmlFor={inputs?.id}
                       className="font-bold text-black"
@@ -185,11 +185,11 @@ const FormSection = () => {
           </div>
 
           <div className=" flex flex-col w-full items-start text-black">
-            {formFields?.map((inputs) => {
+            {formFields?.map((inputs, idx) => {
               return (
                 <>
                   {inputs?.type === "checkbox" ? (
-                    <div className="space-x-2">
+                    <div key={idx} className="space-x-2">
                       <input
                         onChange={handleChange}
                         name={inputs?.name}
