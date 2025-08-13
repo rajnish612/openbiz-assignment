@@ -40,7 +40,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="p-5 mt-18  text-center font-medium text-2xl">
+      <div className="p-5 mt-20 bg-[#f2f6f9]  text-center font-medium text-2xl">
         <h1 className="text-[#241b63]  ">
           UDYAM REGISTRATION FORM - For New Enterprise who are not Registered
           yet as MSME
