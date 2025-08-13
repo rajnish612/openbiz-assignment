@@ -8,6 +8,7 @@ const FormSection = () => {
     aadhar: "",
     checked: "",
   });
+  const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState();
   const [otpFormOpen, setOtpFormOpen] = useState(false);
   const [errors, setErrors] = useState(false);
@@ -72,6 +73,7 @@ const FormSection = () => {
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
+    setLoading(true);
     try {
       const res = await fetch("/api/submit", {
         method: "POST",
@@ -80,9 +82,13 @@ const FormSection = () => {
         },
         body: JSON.stringify(formData),
       });
+      setOtpFormOpen(true);
+      alert("OTP sent to your registered mobile no successfully");
       const data = await res.json();
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -204,7 +210,12 @@ const FormSection = () => {
                       )}
                     </div>
                   ) : (
-                    inputs?.type === "submit" && (
+                    inputs?.type === "submit" &&
+                    (loading ? (
+                      <div className="bg-blue-500 p-4 rounded-md">
+                        <div className="border-b-2 border-white h-4 w-4 animate-spin rounded-full" />{" "}
+                      </div>
+                    ) : (
                       <input
                         onClick={handleSubmit}
                         onChange={handleChange}
@@ -215,39 +226,41 @@ const FormSection = () => {
                         className="mt-5 bg-blue-500 hover:bg-blue-600 tranistion-all p-2 rounded-md text-white cursor-pointer"
                         value={inputs?.value}
                       ></input>
-                    )
+                    ))
                   )}
                 </>
               );
             })}
-            <div className="mt-5 flex space-y-5 w-full flex-col">
-              <span className="font-black">
-                Enter One Time Password(OTP) Code
-              </span>
-              <input
-                onChange={(e) => {
-                  if (
-                    e.target.value.length <= 6 &&
-                    typeof parseInt(e.target.value) === "number"
-                  ) {
-                    setOtp(e.target.value);
-                  }
-                }}
-                className="w-full rounded-md p-2 border-1 border-gray-400"
-                type="number"
-                value={otp}
-                maxLength={6}
-                placeholder="OTP"
-              />
-              <span>OTP has been sent to *******866</span>
+            {otpFormOpen && (
+              <div className="mt-5 flex space-y-5 w-full flex-col">
+                <span className="font-black">
+                  Enter One Time Password(OTP) Code
+                </span>
+                <input
+                  onChange={(e) => {
+                    if (
+                      e.target.value.length <= 6 &&
+                      typeof parseInt(e.target.value) === "number"
+                    ) {
+                      setOtp(e.target.value);
+                    }
+                  }}
+                  className="w-full rounded-md p-2 border-1 border-gray-400"
+                  type="number"
+                  value={otp}
+                  maxLength={6}
+                  placeholder="OTP"
+                />
+                <span>OTP has been sent to *******866</span>
 
-              <input
-                onClick={handleOtpSubmit}
-                type="submit"
-                value="validate"
-                className="mt-6 cursor-pointer rounded-md text-white bg-blue-600 p-2 w-fit"
-              />
-            </div>
+                <input
+                  onClick={handleOtpSubmit}
+                  type="submit"
+                  value="validate"
+                  className="mt-6 cursor-pointer rounded-md text-white bg-blue-600 p-2 w-fit"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
