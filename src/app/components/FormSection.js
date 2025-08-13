@@ -11,7 +11,7 @@ const FormSection = () => {
   const [otp, setOtp] = useState();
   const [otpFormOpen, setOtpFormOpen] = useState(false);
   const [errors, setErrors] = useState(false);
-  console.log(formFields);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
@@ -22,7 +22,6 @@ const FormSection = () => {
         };
       });
     }
-    console.log("checked", checked);
 
     setValidateFormData((prev) => ({
       ...prev,
@@ -74,8 +73,6 @@ const FormSection = () => {
       return;
     }
     try {
-      console.log("formdata", formData);
-
       const res = await fetch("/api/submit", {
         method: "POST",
         headers: {
@@ -84,9 +81,8 @@ const FormSection = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -139,7 +135,7 @@ const FormSection = () => {
                       type={idx == 0 ? "number" : inputs?.type}
                       required={inputs?.required}
                       id={inputs?.id}
-                      className="w-full border-1 p-1 rounded-md placeholder:text-gray-500 border-[#ced4da]"
+                      className="w-full border-1 p-1 rounded-md text-black placeholder:text-gray-500 border-[#ced4da]"
                       placeholder={inputs?.placeholder}
                     />
 
@@ -234,8 +230,6 @@ const FormSection = () => {
                     e.target.value.length <= 6 &&
                     typeof parseInt(e.target.value) === "number"
                   ) {
-                    console.log("write");
-
                     setOtp(e.target.value);
                   }
                 }}
